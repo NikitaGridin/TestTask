@@ -1,0 +1,62 @@
+<div onclick="getClick()">отправить</div>
+<div id="count"></div>
+<div onclick="plus()">+</div>
+<script>
+
+const a = document.getElementById('#count')
+function plus(){
+count++;
+console.log(count);
+}
+const email = 'aruisialalin@yandex.ru';
+const password = 'password';
+const login = 'nikitaGridin';
+const appName = 'My app';
+
+const url = 'https://zont-online.ru/api/get_authtoken';
+const api = 'https://lk.zont-online.ru/api/button_count';
+const data = {
+  client_name: appName
+};
+const headers = {
+  'Content-Type': 'application/json',
+  'X-ZONT-Client': email,
+  'Authorization': 'Basic ' + btoa(login + ':' + password)
+};
+
+function getClick(){
+    fetch(url, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(data)
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    const token = data.token;
+    fetch(api,{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-ZONT-Token': token,
+      'X-ZONT-Client': email,
+    },
+    body: JSON.stringify({ count: count }),
+  }).then(response => {
+    return response.json();
+    }).then(data => {
+      console.log(data.count);
+    })
+
+    console.log(token);
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+  }
+
+</script>
