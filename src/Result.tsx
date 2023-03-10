@@ -2,12 +2,13 @@ import React from 'react'
 
 interface ResultProps {
     message: string;
-    count: number;
+    count?: number;
+    border: string;
   }
   
 
-export const Result = ({ message, count }: ResultProps) => {
+export const Result = ({ message, count,border }: ResultProps) => {
     return (
-    <div className='w-full border-yellow-400 border rounded-lg mt-5 p-2 text-center'>{message}: {count}</div>
+    <div className={`w-full ${border} rounded-lg mt-5 p-2 text-center border-2 font-semibold`}>{message}: {count}</div>
   )
 }
